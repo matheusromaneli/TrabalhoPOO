@@ -1,4 +1,4 @@
-0 bata 1.2
+0 batata 1.2
 11 pudim 12.0
 1 coca-cola 8.2
 12 feijao 2.5
