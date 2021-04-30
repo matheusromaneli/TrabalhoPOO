@@ -76,7 +76,6 @@ public class Cardapio {
                 }                              
             }                
         }catch (IOException ex) {
-            System.out.println("ERRORRRRRR");
         }
         
     }
@@ -95,7 +94,6 @@ public class Cardapio {
                     }
             
         }catch (IOException ex) {
-            System.out.println("ERRORRRRRR");
         }
         
     }
