@@ -25,8 +25,7 @@ public class Cardapio {
                     
                     boolean continua;
                     continua = true;
-                    while (continua){
-                        System.out.println("Insira o nome do item a ser inserido");
+                    while (continua){                        
                         Item novo = new Item();
                         bw.write(novo.getId()+ " " + novo.getNome()+ " " +  + novo.getPreco());
                         bw.newLine();
@@ -42,6 +41,7 @@ public class Cardapio {
                 continua = true;                
                 while (continua){
                     //arquivo já contem dados
+                    System.out.println("\nInsira o nome do item a ser inserido");
                     String nome = Teclado.nextLine();
 
                     FileReader fr = new FileReader(arquivo);
@@ -50,6 +50,7 @@ public class Cardapio {
                     existe = false;
                     while (br.ready()) {
                         //lê a linha
+                        
                         String linha = br.readLine();
                         //verifica se item já encontra no arquivo
                         String palavras[] = linha.split(" ");
@@ -61,13 +62,12 @@ public class Cardapio {
                     if (!existe){
                         try (FileWriter fw = new FileWriter(arquivo, true); BufferedWriter bw = new BufferedWriter(fw)) {
                             //caso não exista salvar novo item
-                            Item novo = new Item(nome);
+                            Item novo = new Item(nome);                            
                             bw.write(novo.getId()+ " " + novo.getNome()+ " " +  + novo.getPreco());                           
-                            bw.newLine();
-                            
+                            bw.newLine();                            
                         }                    
                     }else{
-                        System.out.println("Item já se encontra no cardapio");
+                        System.out.println("\nItem já se encontra no cardapio");
                     }
                     System.out.println("Deseja salvar mais um item?");
                     String op = Teclado.nextLine();

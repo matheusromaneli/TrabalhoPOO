@@ -2,4 +2,5 @@
 11 pudim 12.0
 1 coca-cola 8.2
 12 feijao 2.5
-125 null 9.9
+24 arroz 1.0
+123 coco 23.4

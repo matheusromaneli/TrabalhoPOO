@@ -26,7 +26,9 @@ public class Item {
         this.preco = precoRecebido;
     }
     
-    public Item(String nome){
+    public Item(String nomeRecebido){
+        this.nome = nomeRecebido;
+        
         System.out.println("Insira o id do item");
         String aux = Teclado.nextLine();
         int idRecebido = Integer.parseInt(aux);
