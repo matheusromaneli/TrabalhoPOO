@@ -8,6 +8,10 @@ public class Mesa {
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private boolean disponivel = true;
     
+    public void ocupada(){
+        this.disponivel = false;
+    }
+    
     public void fazerPedido(Pedido p){
         pedidos.add(p);
     }
@@ -15,11 +19,19 @@ public class Mesa {
         pedidos.remove(pedidos.size()-1);
     }
     
-    public float calcularTotal(){
+    public float fechaMesa(){
+        this.disponivel = true;
+        return calcularTotal();
+    }
+    
+    private float calcularTotal(){
         float total = 0;
         for(int i=0;i < pedidos.size(); i++){
             total += pedidos.get(i).calculaSubTotal();
         }
+
         return total;
     }
+    
+    
 }
