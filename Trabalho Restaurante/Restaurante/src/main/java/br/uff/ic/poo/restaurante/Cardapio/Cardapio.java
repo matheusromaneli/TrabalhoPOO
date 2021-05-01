@@ -15,7 +15,7 @@ public class Cardapio {
     Scanner Teclado = new Scanner(System.in);
     
     public void SalvarItem(){
-        File arquivo = new File("S:\\Users\\danie\\Documents\\NetBeansProjects\\Trabalho Restaurante\\Restaurante\\src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.txt");
+        File arquivo = new File("src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.txt");
         try{
             if (!arquivo.exists()) {
                 //cria arquivo vazio
@@ -26,6 +26,7 @@ public class Cardapio {
                     boolean continua;
                     continua = true;
                     while (continua){
+                        System.out.println("Insira o nome do item a ser inserido");
                         Item novo = new Item();
                         bw.write(novo.getId()+ " " + novo.getNome()+ " " +  + novo.getPreco());
                         bw.newLine();
@@ -81,7 +82,7 @@ public class Cardapio {
     }
     
     public void imprimeCardapio(){
-        File arquivo = new File("S:\\Users\\danie\\Documents\\NetBeansProjects\\Trabalho Restaurante\\Restaurante\\src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.txt");
+        File arquivo = new File("src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.txt");
         try{
             FileReader fr = new FileReader(arquivo);
             BufferedReader br = new BufferedReader(fr);

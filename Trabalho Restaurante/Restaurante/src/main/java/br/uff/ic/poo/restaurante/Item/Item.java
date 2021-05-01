@@ -20,7 +20,7 @@ public class Item {
         int idRecebido = Integer.parseInt(aux);
         this.id = idRecebido;
         
-        System.out.println("Insira o preÃ§o do item");
+        System.out.println("Insira o preço do item");
         aux = Teclado.nextLine();        
         float precoRecebido = Float.parseFloat(aux);
         this.preco = precoRecebido;
@@ -32,7 +32,7 @@ public class Item {
         int idRecebido = Integer.parseInt(aux);
         this.id = idRecebido;
 
-        System.out.println("Insira o preÃ§o do item");
+        System.out.println("Insira o preço do item");
         aux = Teclado.nextLine();        
         float precoRecebido = Float.parseFloat(aux);
         this.preco = precoRecebido;     
