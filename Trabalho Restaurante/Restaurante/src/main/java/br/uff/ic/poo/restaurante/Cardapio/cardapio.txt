@@ -1,6 +1,11 @@
-0 batata 1.2
-11 pudim 12.0
-1 coca-cola 8.2
-12 feijao 2.5
-24 arroz 1.0
-123 coco 23.4
+0;Agua;5.00;1
+1;Coca-Cola;7.50;1
+2;Cerveja;8.50;1
+3;Suco;6.00;1
+4;Strogonoff;25.50;1
+5;Ravioli;23.00;1
+6;Pastel;11.00;1
+7;PF;15.00;1
+8;Churrasco;119.90;1
+9;Pudim;13.50;1
+10;Sorvete;13.90;1
