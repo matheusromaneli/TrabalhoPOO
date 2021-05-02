@@ -1,11 +1,14 @@
 package br.uff.ic.poo.restaurante.Main;
 
+
 import br.uff.ic.poo.restaurante.Cardapio.Cardapio;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class main {
+
     public static void main(String[] args){
 
         Scanner teclado = new Scanner(System.in);
@@ -188,6 +191,6 @@ public class main {
         }
         
         System.out.println("\nPrograma encerrado.");
-    } 
+    }
     
 }
