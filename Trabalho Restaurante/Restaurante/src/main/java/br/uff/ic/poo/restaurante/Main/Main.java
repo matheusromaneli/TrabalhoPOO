@@ -1,21 +1,18 @@
 package br.uff.ic.poo.restaurante.Main;
 
-<<<<<<< HEAD:Trabalho Restaurante/Restaurante/src/main/java/br/uff/ic/poo/restaurante/Main/Main.java
 import br.uff.ic.poo.restaurante.Item.Item;
 import br.uff.ic.poo.restaurante.Mesa.Mesa;
 import br.uff.ic.poo.restaurante.Pedido.Pedido;
 import br.uff.ic.poo.restaurante.Restaurante.Restaurante;
 import java.util.ArrayList;
-=======
 
 import br.uff.ic.poo.restaurante.Cardapio.Cardapio;
 import java.io.FileNotFoundException;
 import java.io.IOException;
->>>>>>> 697c5abfb3f0c8fead323955a827e8e7a47e328e:Trabalho Restaurante/Restaurante/src/main/java/br/uff/ic/poo/restaurante/Main/main.java
 import java.util.Scanner;
 
 
-public class main {
+public class Main {
 
     public static void main(String[] args){
 
