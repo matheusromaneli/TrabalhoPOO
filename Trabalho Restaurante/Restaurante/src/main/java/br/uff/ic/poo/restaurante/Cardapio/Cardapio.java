@@ -1,166 +1,176 @@
 package br.uff.ic.poo.restaurante.Cardapio;
 
 import br.uff.ic.poo.restaurante.Item.Item;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import static java.lang.Float.parseFloat;
-import static java.lang.Integer.parseInt;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 public class Cardapio {   
     
     Scanner Teclado = new Scanner(System.in);
-    private int ocupado; //ocupado = 0 (LIVRE)  ocupado = 1 (OCUPADO)
+    ArrayList<Item> itens = new ArrayList();
+    boolean arrayCriado; 
+    //private int ocupado; // 0 (Liberado) 1 (Ocupado)
     
-    public void SalvarItem() throws FileNotFoundException{
-        File arquivo = new File("src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.dat");
-        try{
-            if (!arquivo.exists()) {
-                //cria arquivo vazio
-                arquivo.createNewFile();
-                
-                try (FileOutputStream arqWrite = new FileOutputStream(arquivo)) {
-                    DataOutputStream gravarArq = new DataOutputStream(arqWrite);
-                    
-                    boolean continua;
-                    continua = true;
-                    while (continua){
-                        Item novo = new Item();
-                        this.ocupado = 1;
-                        gravarArq.writeUTF(novo.getId()+ ";" + novo.getNome()+ ";" +  + novo.getPreco() + ";" + this.ocupado + "\n");
-                        System.out.println("Deseja salvar mais um item?");
-                        String op = Teclado.nextLine();
-                        if (("N".equals(op)) || ("n".equals(op))){
-                            continua = false;
-                        }   
-                    }
-                    arqWrite.close();
+    //ler o arquivo e armazenar em memoria principal(array itens)
+    private void lerArquivo(){        
+        File arquivo = new File("cardapio.txt");
+        
+        if (arquivo.exists()){
+            FileReader fr = null;
+            try {
+                fr = new FileReader(arquivo);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BufferedReader br = new BufferedReader(fr);
+            //lê a linha                        
+            String linha = null;            
+            try {
+                while (br.ready()){
+                    linha = br.readLine();
+                    String palavras[] = linha.split(";");
+                    Item novo = new Item(Integer.parseInt(palavras[0]),palavras[1],Float.parseFloat(palavras[2]));
+                    itens.add(novo);                    
                 }
+            } catch (IOException ex) {
+                Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            System.out.println("Não há cardapio salvo no disco");
+        } 
+        System.out.println();
+    }
+    
+    public void adicionarItem(){
+        if (itens.isEmpty()){
+            this.lerArquivo(); 
+        }    
+        boolean continua = true;
+        while (continua){
+            System.out.println("\nInsira o nome do item a ser inserido");
+            String nome = Teclado.nextLine();
+            boolean existe = false;
+            int i = 0;
+            while (i < itens.size()){
+                if (itens.get(i).getNome().equals(nome)){ 
+                    existe = true;
+                    i+= itens.size();
+                }                
+                i++;
+            }     
+            if (!existe){
+                Item novo = new Item(nome);
+                itens.add(novo); 
+                System.out.println("Item salvo");
             }else{
-                boolean continua;
-                continua = true;  
-                try (FileInputStream arqLeitura = new FileInputStream(arquivo)) {
-                    DataInputStream lerArq = new DataInputStream(arqLeitura);
-                    while (continua){
-                        //arquivo já contem dados
-                        System.out.println("\nInsira o nome do item a ser inserido");
-                        String nome = Teclado.nextLine();                     
-                        
-                        boolean existe;
-                        existe = false;
-                        int cont = 0;
-                        int tam = 0;
-                        while (arqLeitura.available() > 0) {
-                            //lê a linha
-                            String linha = lerArq.readUTF();
-                            //verifica se item já encontra no arquivo
-                            String palavras[] = new String[4];
-                            palavras = linha.split(";");
-                            if (palavras[1].equals(nome)){
-                                existe = true;
-                                tam = palavras[1].length();                                
-                            }
-                            cont++;
-                        }
-                        arqLeitura.close();
-                        if (!existe){
-                            //caso não exista salvar novo item
-                            RandomAccessFile raf = new RandomAccessFile(arquivo,"rw");                        
-                            Item novo = new Item(nome);
-                            this.ocupado = 1;
-                            raf.seek(cont*(Integer.SIZE + (Character.SIZE * (tam+3)) + Float.SIZE + Integer.SIZE));
-                            raf.writeUTF(novo.getId()+ ";" + novo.getNome()+ ";" +  + novo.getPreco() + ";" + this.ocupado + "\n");
-                            raf.close();
-                        }else{
-                            System.out.println("\nItem já se encontra no cardapio");
-                        }
-                        System.out.println("Deseja salvar mais um item?");
-                        String op = Teclado.nextLine();
-                        if (("N".equals(op)) || ("n".equals(op))){
-                            continua = false;
-                        }
-                    }
-                }
-            }                
+                System.out.println("Item já se encontra no cardapio");
+            }
+            
+            System.out.println("\nDeseja salvar mais um item?");
+            System.out.println("1. Sim\n0. Não");
+            String op = Teclado.nextLine();
+            int escolha = Integer.parseInt(op);
+            if (escolha == 0){
+                continua = false;
+            }           
+        }
+        //atualizando cardapio.txt
+        File arquivo = new File("cardapio.txt");
+        try (FileWriter arq = new FileWriter(arquivo)) {
+            PrintWriter gravarArq = new PrintWriter(arq);
+            for (int i = 0 ; i < itens.size() ; i++){
+                gravarArq.println(itens.get(i).getId() + ";" + itens.get(i).getNome() + ";" + itens.get(i).getPreco());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            
+    public void removerItem() {
+        if (itens.isEmpty()){
+            this.lerArquivo();
+        }    
+        boolean continua = true;
+        while (continua){
+            System.out.println("\nInsira o ID do item a ser removido");
+            String nome = Teclado.nextLine();
+            int id = Integer.parseInt(nome);
+            boolean existe = false;
+            int i = 0;
+            int remover = -1;
+            while (i < itens.size()){
+                if (itens.get(i).getId() == id){
+                    existe = true;
+                    remover = i;
+                    i+= itens.size();
+                }                
+                i++;
+            }     
+            if (existe){                
+                itens.remove(remover);
+                System.out.println("Item removido");
+            }else{
+                System.out.println("Item não se encontra no cardapio");                
+            }            
+            System.out.println("\nDeseja remover mais um item?");
+            System.out.println("1. Sim\n0. Não");
+            String op = Teclado.nextLine();
+            int escolha = Integer.parseInt(op);
+            if (escolha == 0){
+                continua = false;
+            }           
+        }
+        //atualizando cardapio.txt
+        File arquivo = new File("cardapio.txt");
+        try (FileWriter arq = new FileWriter(arquivo,false)) {
+            PrintWriter gravarArq = new PrintWriter(arq);
+            for (int i = 0 ; i < itens.size() ; i++){
+                gravarArq.println(itens.get(i).getId() + ";" + itens.get(i).getNome() + ";" + itens.get(i).getPreco());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Cardapio.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+    }
+   
+    public void imprimeCardapio(){
+        File arquivo = new File("cardapio.txt");
+        try{
+            FileReader fr = new FileReader(arquivo);
+            BufferedReader br = new BufferedReader(fr);
+            System.out.println("\n\t\t\tCARDAPIO");
+            while (br.ready()) {
+                //lê a linha
+                String linha = br.readLine();
+                //verifica se item já encontra no arquivo
+                String palavras[] = linha.split(";");                
+                // System.out.println("ID:"+palavras[0]+ " Item: " + palavras[1]+ " R$" + palavras[2]);
+                float preco = Float.parseFloat(palavras[2]);
+                System.out.printf("ID: %-3s Item: %-25s R$ %.2f %n", palavras[0], palavras[1], preco);                                                                                       
+            }            
         }catch (IOException ex) {
         }
+        System.out.println();
         
     }
-    
-    public void imprimeCardapio() throws FileNotFoundException, IOException{
-        File arquivo = new File("src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.dat");
-        
-        try (FileInputStream arqLeitura = new FileInputStream(arquivo)) {
-            DataInputStream lerArq = new DataInputStream(arqLeitura);
-
-            while (arqLeitura.available() != 0){
-                //lê a linha
-                String linha = lerArq.readUTF();
-                //verifica se item já encontra no arquivo
-                String palavras[] = new String[4];
-                palavras = linha.split(";");
-                //palavras[3] é a flag de controle(ocupado)
-                if ("1".equals(palavras[3])){
-                    System.out.println("ID:" + palavras[0] + " Item:" + palavras[1] + " R$" + palavras[2]);
-                }                                                                                                      
-            }
-        }
-        
-       
-    }
-    
-    public void apagaItem() throws FileNotFoundException, IOException{        
-        File arquivo = new File("src\\main\\java\\br\\uff\\ic\\poo\\restaurante\\Cardapio\\cardapio.dat");
-
-        try (FileInputStream arqLeitura = new FileInputStream(arquivo)) {
-            DataInputStream lerArq = new DataInputStream(arqLeitura);
-
-            //arquivo já contem dados
-            System.out.println("\nInsira o nome do item a ser excluido");
-            String nome = Teclado.nextLine();                     
-
-            int pos, cont, tam;
-            tam = 0;
-            cont = 0;
-            pos = -1;
-            int idExcluida = -1;
-            float precoExcluido = -1; 
-            
-            
-            while ((arqLeitura.available() != 0)||(pos < 0)) {
-                //lê a linha
-                String linha = lerArq.readUTF();                
-                //verifica se item já encontra no arquivo
-                String palavras[] = linha.split(";");
-                if (palavras[1].equals(nome)){
-                    pos = cont;
-                    tam = palavras[1].length();
-                    idExcluida = parseInt(palavras[0]);
-                    precoExcluido = parseFloat(palavras[2]);                    
-                }
-                cont++;
-            }
-            arqLeitura.close();
-            try (RandomAccessFile raf = new RandomAccessFile(arquivo,"rw")) {
-                if (pos != -1){
-                    //salvar no arquivo nessa pos*tamanho de cada linha
-                    pos = pos*(Integer.SIZE + (Character.SIZE * (tam+3)) + Float.SIZE + Integer.SIZE);
-                    raf.seek(pos);
-                    this.ocupado = 0;
-                    raf.writeUTF(idExcluida + ";" + nome + ";" + precoExcluido + ";" + this.ocupado + "\n");
-                    System.out.println(nome + " foi excluido do cardapio");
-                }else{
-                    System.out.println(nome + " não se encontra no cardapio");
-                }
-                raf.close();
-            }
-        }        
-    }         
 }

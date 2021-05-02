@@ -3,41 +3,47 @@ package br.uff.ic.poo.restaurante.Item;
 import java.util.Scanner;
 
 public class Item {
-        
+
     private String nome;
     private int id;
     private float preco;
-    
+
     Scanner Teclado = new Scanner(System.in);
-    
-    public Item(){        
-        System.out.println("Insira o nome do item");
+
+    public Item(){
+        System.out.println("\nInsira o nome do item");
         String nomeRecebido = Teclado.nextLine();
         this.nome = nomeRecebido;
-        
-        System.out.println("Insira o id do item");
-        String aux = Teclado.nextLine();
-        int idRecebido = Integer.parseInt(aux);
-        this.id = idRecebido;
-        
-        System.out.println("Insira o preço do item");
-        aux = Teclado.nextLine();        
-        float precoRecebido = Float.parseFloat(aux);
-        this.preco = precoRecebido;
-    }
-    
-    public Item(String nomeRecebido){
-        this.nome = nomeRecebido;
-        
-        System.out.println("Insira o id do item");
+
+        System.out.println("\nInsira o id do item");
         String aux = Teclado.nextLine();
         int idRecebido = Integer.parseInt(aux);
         this.id = idRecebido;
 
-        System.out.println("Insira o preço do item");
-        aux = Teclado.nextLine();        
+        System.out.println("\nInsira o preço do item");
+        aux = Teclado.nextLine();
         float precoRecebido = Float.parseFloat(aux);
-        this.preco = precoRecebido;     
+        this.preco = precoRecebido;
+    }
+
+    public Item(String nomeRecebido){
+        this.nome = nomeRecebido;
+
+        System.out.println("\nInsira o id do item");
+        String aux = Teclado.nextLine();
+        int idRecebido = Integer.parseInt(aux);
+        this.id = idRecebido;
+
+        System.out.println("\nInsira o preço do item");
+        aux = Teclado.nextLine();
+        float precoRecebido = Float.parseFloat(aux);
+        this.preco = precoRecebido;
+    }
+
+    public Item(int id, String nome , float preco){
+        this.nome = nome;
+        this.id = id;
+        this.preco = preco;
     }
 
     public void setNome(String nome) {
@@ -63,6 +69,4 @@ public class Item {
     public float getPreco() {
         return preco;
     }
-    
-
 }

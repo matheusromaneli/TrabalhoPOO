@@ -46,16 +46,20 @@ public class Main {
                         escolha_menu_secundario1 = teclado.nextInt();
 
                         // instanciar cardápio
+                        Cardapio novoCardapio = new Cardapio();
 
                         switch(escolha_menu_secundario1){
                             case 1:
                                 // chamar método para imprimir o cardápio
+                                novoCardapio.imprimeCardapio();
                                 break;
                             case 2:
                                 // chamar método para adicionar prato ao cardápio
+                                novoCardapio.adicionarItem();
                                 break;
                             case 3:
                                 // chamar método para remover prato do cardápio
+                                novoCardapio.removerItem();
                                 break;
                             case 0:
                                 escolha_menu_secundario1 = 0;
