@@ -2,7 +2,7 @@ package br.uff.ic.poo.restaurante.Main;
 
 import java.util.Scanner;
 
-public class main {
+public class Main {
     public static void main(String[] args){
 
         Scanner teclado = new Scanner(System.in);
