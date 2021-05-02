@@ -7,6 +7,7 @@ public class Mesa {
     
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private boolean disponivel = true;
+    private int numMesa;
     
     public void ocupada(){
         this.disponivel = false;
@@ -32,6 +33,26 @@ public class Mesa {
 
         return total;
     }
+<<<<<<< HEAD
     
     
+=======
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public int getNumMesa() {
+        return numMesa;
+    }
+
+    public void setNumMesa(int numMesa) {
+        this.numMesa = numMesa;
+    }
+
+>>>>>>> a7475692d0202c6cb9bf0c65842606b329999aa8
 }
