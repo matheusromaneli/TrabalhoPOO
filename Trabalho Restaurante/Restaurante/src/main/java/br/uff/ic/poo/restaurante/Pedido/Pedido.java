@@ -9,8 +9,14 @@ public class Pedido {
     
     Map<Item,Integer> lista = new HashMap<>();
     
-    public void adicionar(Item i, int n){
+    public void adicionaItem(Item i, int n){
         lista.put(i, n);
+    }
+    
+    public void removeItem(Item i, int n){
+        if(lista.get(i)-n >= 0){
+            lista.replace(i, lista.get(i), lista.get(i)- n);
+        }
     }
     
     public void removeItem(Item i){
