@@ -19,7 +19,7 @@ public class Cardapio {
     
     Scanner Teclado = new Scanner(System.in);
     ArrayList<Item> itens = new ArrayList();
-    boolean arrayCriado; 
+    boolean arrayCriado;
     //private int ocupado; // 0 (Liberado) 1 (Ocupado)
     
     //ler o arquivo e armazenar em memoria principal(array itens)
@@ -79,14 +79,41 @@ public class Cardapio {
                 }                
                 i++;
             }     
-            if (!existe){
-                Item novo = new Item(nome);
+            if (!existe){               
+                System.out.println("\nInsira o id do item");
+                String aux = Teclado.nextLine();
+                int id;
+                //Tratamento de entrada inválida
+                try{
+                    id = Integer.parseInt(aux); 
+                    for (Item auxiliar: itens){
+                        if (auxiliar.getId()== id){
+                            throw new IllegalArgumentException();                        
+                        }                   
+                }
+                }catch (IllegalArgumentException e){
+                    System.out.println("Entrada de ID inválida\nOperação Interrompida");
+                    break;                       
+                }
+                
+
+                System.out.println("Insira o preço do item");
+                aux = Teclado.nextLine();
+                float preco;
+                //Tratamento de entrada inválida
+                try{
+                    preco = Float.parseFloat(aux);
+                }catch (IllegalArgumentException e){
+                    System.out.println("Entrada de preço inválida\nOperação Interrompida");
+                    break;                       
+                } 
+                
+                Item novo = new Item(id, nome, preco);                
                 itens.add(novo); 
                 System.out.println("Item salvo");
             }else{
                 System.out.println("Item já se encontra no cardapio");
-            }
-            
+            }            
             System.out.println("\nDeseja salvar mais um item?");
             System.out.println("1. Sim\n0. Não");
             String op = Teclado.nextLine();
@@ -171,6 +198,5 @@ public class Cardapio {
         }catch (IOException ex) {
         }
         System.out.println();
-        
     }
 }

@@ -93,7 +93,7 @@ public class Main {
                                 // instanciar uma mesa, adicioná-la às mesas existentes e abrir lista de pedidos para ela
                                 ArrayList<Integer> disponiveis = restaurante.encontraMesaDisponivel();
                                 if(disponiveis.size()>0){
-                                    System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
+                                    System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
                                     int k = -1;
                                     while(!disponiveis.contains(k)){
                                         k = Integer.parseInt(teclado.nextLine());
@@ -104,7 +104,6 @@ public class Main {
                                     System.out.println("Nao possui mesa disponível, favor aguardar\nInsira seu nome para entrar na lista de espera (n para sair):");
                                     restaurante.entrarNaFila(teclado.nextLine());
                                 }
-                                
                                 break;
                             case 2:
                                 // chamar método para fazer pedido para uma mesa
