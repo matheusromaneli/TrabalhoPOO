@@ -19,9 +19,7 @@ public class Cardapio {
     
     Scanner Teclado = new Scanner(System.in);
     ArrayList<Item> itens = new ArrayList();
-    boolean arrayCriado;
-    //private int ocupado; // 0 (Liberado) 1 (Ocupado)
-    
+        
     //ler o arquivo e armazenar em memoria principal(array itens)
     public void lerArquivo(){        
         File arquivo = new File("cardapio.txt");
@@ -182,22 +180,27 @@ public class Cardapio {
    
     public void imprimeCardapio(){
         File arquivo = new File("cardapio.txt");
-        try{
-            FileReader fr = new FileReader(arquivo);
-            BufferedReader br = new BufferedReader(fr);
-            System.out.println("\n\t\t\tCARDAPIO");
-            while (br.ready()) {
-                //lê a linha
-                String linha = br.readLine();
-                //verifica se item já encontra no arquivo
-                String palavras[] = linha.split(";");                
-                // System.out.println("ID:"+palavras[0]+ " Item: " + palavras[1]+ " R$" + palavras[2]);
-                float preco = Float.parseFloat(palavras[2]);
-                System.out.printf("ID: %-3s Item: %-25s R$ %.2f %n", palavras[0], palavras[1], preco);                                                                                       
-            }            
-        }catch (IOException ex) {
-        }
-        System.out.println();
+        if (arquivo.exists()){
+            try{
+                FileReader fr = new FileReader(arquivo);
+                BufferedReader br = new BufferedReader(fr);
+                System.out.println("\n\t\t\tCARDAPIO");
+                while (br.ready()) {
+                    //lê a linha
+                    String linha = br.readLine();
+                    //verifica se item já encontra no arquivo
+                    String palavras[] = linha.split(";");                
+                    // System.out.println("ID:"+palavras[0]+ " Item: " + palavras[1]+ " R$" + palavras[2]);
+                    float preco = Float.parseFloat(palavras[2]);
+                    System.out.printf("ID: %-3s Item: %-25s R$ %.2f %n", palavras[0], palavras[1], preco);                                                                                       
+                }            
+            }catch (IOException ex) {
+            }
+            System.out.println();
+        }else{
+            System.out.println("Não há cardapio salvo no disco");
+        }     
+        
     }
     
     public ArrayList<Item> getItems(){
