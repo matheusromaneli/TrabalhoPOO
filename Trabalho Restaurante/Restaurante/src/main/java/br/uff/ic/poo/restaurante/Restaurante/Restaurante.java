@@ -1,6 +1,5 @@
 package br.uff.ic.poo.restaurante.Restaurante;
 
-import br.uff.ic.poo.restaurante.Cliente.Cliente;
 import br.uff.ic.poo.restaurante.Mesa.Mesa;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,6 +18,9 @@ public class Restaurante {
     }
     
     public void entrarNaFila(String nome){
+        if (nome.equals("n")) {
+            return;
+        }
         fila.add(nome);
     }
     
@@ -38,8 +40,12 @@ public class Restaurante {
             
     }    
     
-    public void chamaProx(){
-        System.out.println(fila.remove()+" foi chamado");
+    public boolean chamaProx(){
+        if(this.fila.size()>0){
+            System.out.println(fila.remove()+" foi chamado");
+            return true;
+        }
+        return false;
     }
     
     public void ocupar(int n){

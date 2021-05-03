@@ -15,6 +15,7 @@ public class Mesa {
     public void fazerPedido(Pedido p){
         pedidos.add(p);
     }
+    
     public void removerPedido(){
         pedidos.remove(pedidos.size()-1);
     }

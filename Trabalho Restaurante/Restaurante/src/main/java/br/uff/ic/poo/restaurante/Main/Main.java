@@ -4,12 +4,11 @@ import br.uff.ic.poo.restaurante.Item.Item;
 import br.uff.ic.poo.restaurante.Mesa.Mesa;
 import br.uff.ic.poo.restaurante.Pedido.Pedido;
 import br.uff.ic.poo.restaurante.Restaurante.Restaurante;
-import java.util.ArrayList;
-
 import br.uff.ic.poo.restaurante.Cardapio.Cardapio;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -21,7 +20,8 @@ public class Main {
         System.out.println("\n........... Restaurant System Mega Super Pro Version 1.0.28.45 Fall 2021 ...........");
 
         int escolha_menu_principal = -1;
-        
+        Cardapio novoCardapio = new Cardapio();
+        novoCardapio.lerArquivo();
         while(escolha_menu_principal != 0){
 
             System.out.println("\nMenu principal: ");
@@ -44,9 +44,6 @@ public class Main {
                         System.out.println("0. Voltar ao menu anterior.\n");
 
                         escolha_menu_secundario1 = teclado.nextInt();
-
-                        // instanciar cardápio
-                        Cardapio novoCardapio = new Cardapio();
 
                         switch(escolha_menu_secundario1){
                             case 1:
@@ -82,7 +79,7 @@ public class Main {
                         System.out.println("1. Abrir conta para mesa.");
                         System.out.println("2. Fazer pedido para mesa.");
                         System.out.println("3. Fechar conta para mesa.");
-                        System.out.println("4. Fazer pagamento de uma conta.");
+                        // System.out.println("4. Fazer pagamento de uma conta.");
                         System.out.println("5. Chama proximo da fila");
                         System.out.println("0. Voltar ao menu anterior.\n");
 
@@ -96,11 +93,12 @@ public class Main {
                                     System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
                                     int k = -1;
                                     while(!disponiveis.contains(k)){
-                                        k = Integer.parseInt(teclado.nextLine());
+                                        k = teclado.nextInt();
                                     }
                                     restaurante.ocupar(k);
                                 }
                                 else{
+                                    teclado.nextLine();
                                     System.out.println("Nao possui mesa disponível, favor aguardar\nInsira seu nome para entrar na lista de espera (n para sair):");
                                     restaurante.entrarNaFila(teclado.nextLine());
                                 }
@@ -108,37 +106,66 @@ public class Main {
                             case 2:
                                 // chamar método para fazer pedido para uma mesa
                                 System.out.print("Insira o numero da mesa: ");
-                                int num = Integer.parseInt(teclado.nextLine());
+                                int num = teclado.nextInt();
+                                if (restaurante.getMesa(num).isDisponivel()) {
+                                    System.out.println("A mesa "+num+"nao está ocupada");
+                                    break;
+                                }
+                                teclado.nextLine();
                                 Pedido pedido = new Pedido();
                                 while(true){
+                                    novoCardapio.imprimeCardapio();
                                     System.out.println("Insira o nome do item e a quantidade:(Enter para sair)");
                                     String info = teclado.nextLine();
-                                    if(!info.contains(" ")){
+                                    if(info.equals("0")){
                                         break;
                                     }
                                     String [] infos = info.split(" ");
                                     //validar nome do item
-                                    Item a = new Item(infos[0]);
-                                    pedido.adicionaItem(a,Integer.parseInt(infos[1]));
+                                    
+                                    ArrayList<Item> validate = novoCardapio.getItems();
+                                    boolean validation = false;
+                                    Item a = validate.get(0);
+                                    for(Item it:validate){
+                                        if(it.getNome().equalsIgnoreCase(infos[0])){
+                                            a = it;
+                                            validation = true;
+                                        }
+                                    }
+                                    if(validation){
+                                        pedido.adicionaItem(a,Integer.parseInt(infos[1]));
+                                    }
+                                    else{
+                                        System.out.println("O item inserido nao existe no cardápio");
+                                    }
                                 }
                                 
+                                System.out.println("valor do pedido:"+ pedido.calculaSubTotal());
+                                
                                 restaurante.getMesa(num).fazerPedido(pedido);
+
                                 break;
                             case 3:
                                 // fechar conta para uma mesa e apresentar valor total
-                                System.out.print("Insira o numero da mesa: ");
-                                num = Integer.parseInt(teclado.nextLine());
-                                System.out.println("A conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
+                                try {
+                                    System.out.println("Insira o numero da mesa: ");
+                                    num = teclado.nextInt();
+                                    System.out.println("A conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
+                                    
+                                } catch (Exception e) {
+                                    System.out.println("Insira uma mesa válida");
+                                }
                                 break;
-                            case 4:
-                                // apresentar formas de pagamento e receber pagamento (adicionar ao caixa do dia)
-                                break;
+                            // case 4:
+                            //     // apresentar formas de pagamento e receber pagamento (adicionar ao caixa do dia)
+                            //     break;
                             case 5:
                                 // administrar a fila
-                                restaurante.chamaProx();
-                                disponiveis = restaurante.encontraMesaDisponivel();
-                                if(disponiveis.size()>0){
-                                    System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
+                                if(restaurante.chamaProx()){
+                                    disponiveis = restaurante.encontraMesaDisponivel();
+                                    if(disponiveis.size()>0){
+                                        System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
+                                    }
                                 }
                                 break;
                             case 0:

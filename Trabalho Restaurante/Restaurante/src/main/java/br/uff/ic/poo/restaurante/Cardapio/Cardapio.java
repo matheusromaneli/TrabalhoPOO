@@ -23,7 +23,7 @@ public class Cardapio {
     //private int ocupado; // 0 (Liberado) 1 (Ocupado)
     
     //ler o arquivo e armazenar em memoria principal(array itens)
-    private void lerArquivo(){        
+    public void lerArquivo(){        
         File arquivo = new File("cardapio.txt");
         
         if (arquivo.exists()){
@@ -198,5 +198,9 @@ public class Cardapio {
         }catch (IOException ex) {
         }
         System.out.println();
+    }
+    
+    public ArrayList<Item> getItems(){
+        return this.itens;
     }
 }
