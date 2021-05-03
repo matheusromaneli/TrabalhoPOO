@@ -1,21 +1,17 @@
 package br.uff.ic.poo.restaurante.Item;
 
-import java.util.Scanner;
-
 public class Item {
-
+        
     private String nome;
     private int id;
     private float preco;
-
-    Scanner Teclado = new Scanner(System.in);
-
+    
     public Item(int idRecebido, String nomeRecebido , float precoRecebido){
         this.nome = nomeRecebido;
         this.id = idRecebido;
         this.preco = precoRecebido;
     }
-
+    
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -38,5 +34,6 @@ public class Item {
 
     public float getPreco() {
         return preco;
-    }
+    }  
+
 }
