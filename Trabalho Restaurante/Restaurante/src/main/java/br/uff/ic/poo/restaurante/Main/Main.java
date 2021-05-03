@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 
 public class Main {
@@ -29,9 +30,17 @@ public class Main {
             System.out.println("2. Iniciar funcionamento.");
             System.out.println("0. Encerrar programa.\n");
 
-            escolha_menu_principal = teclado.nextInt();
+            try{
+                escolha_menu_principal = teclado.nextInt();
+            }catch(InputMismatchException ex){
+                teclado.next();
+                escolha_menu_principal = -1;
+                System.out.println("\nEntrada inválida. Escolha uma opção válida.");
+            }
             
             switch(escolha_menu_principal){
+                case -1:
+                    break;
                 case 1:
                     int escolha_menu_secundario1 = -1;
 
@@ -42,10 +51,18 @@ public class Main {
                         System.out.println("2. Adicionar prato.");
                         System.out.println("3. Remover prato.");
                         System.out.println("0. Voltar ao menu anterior.\n");
-
-                        escolha_menu_secundario1 = teclado.nextInt();
+                        
+                        try{
+                            escolha_menu_secundario1 = teclado.nextInt();
+                        }catch(InputMismatchException ex){
+                            teclado.next();
+                            escolha_menu_secundario1 = -1;
+                            System.out.println("\nEntrada inválida. Escolha uma opção válida.");
+                        }
 
                         switch(escolha_menu_secundario1){
+                            case -1:
+                                break;
                             case 1:
                                 // chamar método para imprimir o cardápio
                                 novoCardapio.imprimeCardapio();
@@ -83,9 +100,17 @@ public class Main {
                         System.out.println("4. Chama proximo da fila");
                         System.out.println("0. Voltar ao menu anterior.\n");
 
-                        escolha_menu_secundario2 = teclado.nextInt();
+                        try{
+                            escolha_menu_secundario2 = teclado.nextInt();
+                        }catch(InputMismatchException ex){
+                            teclado.next();
+                            escolha_menu_secundario2 = -1;
+                            System.out.println("\nEntrada inválida. Escolha uma opção válida.");
+                        }
 
                         switch(escolha_menu_secundario2){
+                            case -1:
+                                break;
                             case 1:
                                 // instanciar uma mesa, adicioná-la às mesas existentes e abrir lista de pedidos para ela
                                 ArrayList<Integer> disponiveis = restaurante.encontraMesaDisponivel();
@@ -209,10 +234,15 @@ public class Main {
                         System.out.println("1. Sim.");
                         System.out.println("0. Não.\n");
                         
-                        sair_do_programa = teclado.nextInt();
-                        
-                        if(sair_do_programa != 0 && sair_do_programa != 1){
-                            System.out.println("\nOpção inválida. Escolha uma opção válida.");
+                        try{
+                            sair_do_programa = teclado.nextInt();
+                            if(sair_do_programa != 0 && sair_do_programa != 1){
+                                System.out.println("\nOpção inválida. Escolha uma opção válida.");
+                            }
+                        }catch(InputMismatchException ex){
+                            teclado.next();
+                            sair_do_programa = -1;
+                            System.out.println("\nEntrada inválida. Escolha uma opção válida.");
                         }
                     }
                     if(sair_do_programa == 0){

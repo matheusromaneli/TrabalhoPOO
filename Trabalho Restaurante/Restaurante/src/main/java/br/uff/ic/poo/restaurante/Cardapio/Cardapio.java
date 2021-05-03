@@ -88,7 +88,7 @@ public class Cardapio {
                         if (auxiliar.getId()== id){
                             throw new IllegalArgumentException();                        
                         }                   
-                }
+                    }
                 }catch (IllegalArgumentException e){
                     System.out.println("Entrada de ID inválida\nOperação Interrompida");
                     break;                       
