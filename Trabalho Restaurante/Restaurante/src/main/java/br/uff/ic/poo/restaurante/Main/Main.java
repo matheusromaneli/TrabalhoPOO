@@ -165,12 +165,33 @@ public class Main {
                                 if(restaurante.chamaProx()){
                                     disponiveis = restaurante.encontraMesaDisponivel();
                                     if(disponiveis.size()>0){
-                                        System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
+                                        System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
+                                        int mesa_livre = teclado.nextInt();
+                                        System.out.printf("\nO cliente foi encaminhado para a mesa %d.\n", mesa_livre);
+                                        restaurante.ocupar(mesa_livre);
                                     }
                                 }
                                 break;
                             case 0:
-                                escolha_menu_secundario2 = 0;
+                                
+                                int voltar_para_menu_principal = -1;
+                    
+                                while(voltar_para_menu_principal != 0 && voltar_para_menu_principal != 1){
+                                    
+                                    System.out.println("\nVocê deseja voltar para o menu principal?");
+                                    System.out.println("Isso irá resetar todo o gerenciamento pedidos.");
+                                    System.out.println("1. Sim.");
+                                    System.out.println("0. Não.\n");
+                                    
+                                    voltar_para_menu_principal = teclado.nextInt();
+                                    
+                                    if(voltar_para_menu_principal != 0 && voltar_para_menu_principal != 1){
+                                        System.out.println("\nOpção inválida. Escolha uma opção válida.");
+                                    }
+                                }
+                                if(voltar_para_menu_principal == 0){
+                                    escolha_menu_secundario2 = -1;
+                                }
                                 break;
                             default:
                                 System.out.println("\nOpção inválida. Escolha uma opção válida.");
