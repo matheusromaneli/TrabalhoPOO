@@ -80,7 +80,7 @@ public class Main {
                         System.out.println("2. Fazer pedido para mesa.");
                         System.out.println("3. Fechar conta para mesa.");
                         // System.out.println("4. Fazer pagamento de uma conta.");
-                        System.out.println("5. Chama proximo da fila");
+                        System.out.println("4. Chama proximo da fila");
                         System.out.println("0. Voltar ao menu anterior.\n");
 
                         escolha_menu_secundario2 = teclado.nextInt();
@@ -90,7 +90,7 @@ public class Main {
                                 // instanciar uma mesa, adicioná-la às mesas existentes e abrir lista de pedidos para ela
                                 ArrayList<Integer> disponiveis = restaurante.encontraMesaDisponivel();
                                 if(disponiveis.size()>0){
-                                    System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
+                                    System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
                                     int k = -1;
                                     while(!disponiveis.contains(k)){
                                         k = teclado.nextInt();
@@ -99,23 +99,23 @@ public class Main {
                                 }
                                 else{
                                     teclado.nextLine();
-                                    System.out.println("Nao possui mesa disponível, favor aguardar\nInsira seu nome para entrar na lista de espera (n para sair):");
+                                    System.out.println("\nNão possui mesa disponível, favor aguardar.\nInsira seu nome para entrar na lista de espera (n para sair):");
                                     restaurante.entrarNaFila(teclado.nextLine());
                                 }
                                 break;
                             case 2:
                                 // chamar método para fazer pedido para uma mesa
-                                System.out.print("Insira o numero da mesa: ");
+                                System.out.print("\nInsira o numero da mesa: ");
                                 int num = teclado.nextInt();
                                 if (restaurante.getMesa(num).isDisponivel()) {
-                                    System.out.println("A mesa "+num+"nao está ocupada");
+                                    System.out.println("\nA mesa "+num+" não está ocupada");
                                     break;
                                 }
                                 teclado.nextLine();
                                 Pedido pedido = new Pedido();
                                 while(true){
                                     novoCardapio.imprimeCardapio();
-                                    System.out.println("Insira o nome do item e a quantidade:(Enter para sair)");
+                                    System.out.println("\nInsira o nome do item e a quantidade: (0 para sair)");
                                     String info = teclado.nextLine();
                                     if(info.equals("0")){
                                         break;
@@ -136,11 +136,11 @@ public class Main {
                                         pedido.adicionaItem(a,Integer.parseInt(infos[1]));
                                     }
                                     else{
-                                        System.out.println("O item inserido nao existe no cardápio");
+                                        System.out.println("\nO item inserido nao existe no cardápio");
                                     }
                                 }
                                 
-                                System.out.println("valor do pedido:"+ pedido.calculaSubTotal());
+                                System.out.println("\nValor do pedido: "+ pedido.calculaSubTotal());
                                 
                                 restaurante.getMesa(num).fazerPedido(pedido);
 
@@ -148,23 +148,24 @@ public class Main {
                             case 3:
                                 // fechar conta para uma mesa e apresentar valor total
                                 try {
-                                    System.out.println("Insira o numero da mesa: ");
+                                    System.out.println("\nInsira o numero da mesa: ");
                                     num = teclado.nextInt();
-                                    System.out.println("A conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
+                                    System.out.println("\nA conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
                                     
                                 } catch (Exception e) {
-                                    System.out.println("Insira uma mesa válida");
+                                    System.out.println("\nInsira uma mesa válida");
                                 }
                                 break;
                             // case 4:
                             //     // apresentar formas de pagamento e receber pagamento (adicionar ao caixa do dia)
                             //     break;
-                            case 5:
+                            case 4:
                                 // administrar a fila
+                                System.out.println("\nChamando próximo da fila.");
                                 if(restaurante.chamaProx()){
                                     disponiveis = restaurante.encontraMesaDisponivel();
                                     if(disponiveis.size()>0){
-                                        System.out.println("Possuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
+                                        System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\n Qual deseja?");
                                     }
                                 }
                                 break;
