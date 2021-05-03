@@ -115,12 +115,22 @@ public class Main {
                                 // instanciar uma mesa, adicioná-la às mesas existentes e abrir lista de pedidos para ela
                                 ArrayList<Integer> disponiveis = restaurante.encontraMesaDisponivel();
                                 if(disponiveis.size()>0){
-                                    System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
+                                    System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis);
                                     int k = -1;
-                                    while(!disponiveis.contains(k)){
-                                        k = teclado.nextInt();
+                                    try{
+                                        while(!disponiveis.contains(k)){
+                                            System.out.println("\nQual deseja?");
+                                            k = teclado.nextInt();
+                                            if(!disponiveis.contains(k)){
+                                                System.out.println("\nNúmero inválido. Tente novamente.");
+                                            }
+                                        }
+                                        restaurante.ocupar(k);
+                                    }catch(InputMismatchException ex){
+                                        teclado.next();
+                                        System.out.println("\nEntrada inválida. Escolha uma opção válida. Operação interrompida.");
+                                        break;
                                     }
-                                    restaurante.ocupar(k);
                                 }
                                 else{
                                     teclado.nextLine();
@@ -131,9 +141,21 @@ public class Main {
                             case 2:
                                 // chamar método para fazer pedido para uma mesa
                                 System.out.print("\nInsira o numero da mesa: ");
-                                int num = teclado.nextInt();
-                                if (restaurante.getMesa(num).isDisponivel()) {
-                                    System.out.println("\nA mesa "+num+" não está ocupada");
+                                int num;
+                                try{
+                                    num = teclado.nextInt();
+                                    try{
+                                        if (restaurante.getMesa(num).isDisponivel()) {
+                                            System.out.println("\nA mesa "+num+" não está ocupada");
+                                            break;
+                                        }
+                                    }catch(IndexOutOfBoundsException ex){
+                                        System.out.println("\nMesa não existe. Operação interrompida.");
+                                        break;
+                                    }
+                                }catch(InputMismatchException ex){
+                                    teclado.next();
+                                    System.out.println("\nEntrada inválida. Operação interrompida.");
                                     break;
                                 }
                                 teclado.nextLine();
@@ -172,13 +194,16 @@ public class Main {
                                 break;
                             case 3:
                                 // fechar conta para uma mesa e apresentar valor total
+                                System.out.println("\nInsira o numero da mesa: ");
                                 try {
-                                    System.out.println("\nInsira o numero da mesa: ");
                                     num = teclado.nextInt();
-                                    System.out.println("\nA conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
-                                    
-                                } catch (Exception e) {
-                                    System.out.println("\nInsira uma mesa válida");
+                                    try{
+                                        System.out.println("\nA conta da mesa "+num+" deu R$"+restaurante.getMesa(num).fechaMesa());
+                                    }catch(IndexOutOfBoundsException ex){
+                                        System.out.println("\nMesa não existe. Operação interrompida.");
+                                    }  
+                                } catch (InputMismatchException e) {
+                                    System.out.println("\nInsira uma mesa válida. Operação cancelada.");
                                 }
                                 break;
                             // case 4:
@@ -191,9 +216,15 @@ public class Main {
                                     disponiveis = restaurante.encontraMesaDisponivel();
                                     if(disponiveis.size()>0){
                                         System.out.println("\nPossuem as seguintes mesas livres:\n"+disponiveis + "\nQual deseja?");
-                                        int mesa_livre = teclado.nextInt();
-                                        System.out.printf("\nO cliente foi encaminhado para a mesa %d.\n", mesa_livre);
-                                        restaurante.ocupar(mesa_livre);
+                                        int mesa_livre;
+                                        try{
+                                            mesa_livre = teclado.nextInt();
+                                            System.out.printf("\nO cliente foi encaminhado para a mesa %d.\n", mesa_livre);
+                                            restaurante.ocupar(mesa_livre);
+                                        }catch(InputMismatchException ex){
+                                            teclado.next();
+                                            System.out.println("\nEntrada inválida. Escolha uma opção válida. Operação interrompida.");
+                                        }
                                     }
                                 }
                                 break;
